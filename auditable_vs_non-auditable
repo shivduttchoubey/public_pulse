@@ -1,0 +1,35 @@
+Here's the breakdown:
+
+| **Auditable Item** | **Can Be Audited?** | **Reason** |
+|---|---|---|
+| **Encryption at rest** | ✅ Yes | Binary state — either the encryption flag is set or it isn't. ZKP can prove it without revealing keys. |
+| **Encryption in transit / TLS version** | ✅ Yes | TLS handshake can be verified externally; version is a provable assertion. |
+| **Database public exposure** | ✅ Yes | Network reachability is testable without revealing the internal address. |
+| **MFA enforcement** | ✅ Yes | Auth policy is a config state — provable as on/off without revealing user data. |
+| **Session timeout policy** | ✅ Yes | A numeric threshold in config — directly verifiable. |
+| **Backup recency** | ✅ Yes | Timestamp of last backup can be proved as "within X hours" without revealing backup contents. |
+| **SSL certificate validity / expiry** | ✅ Yes | Certificate metadata is already public by design; expiry is trivially provable. |
+| **Brute force / lockout policy** | ✅ Yes | Config state — threshold count is provable without exposing user accounts. |
+| **Firewall and IDS active status** | ✅ Yes | Service running/not-running is a binary state assertion. |
+| **GDPR deletion policy implementation** | ✅ Yes | Presence of deletion logic and audit trail can be proved without revealing whose data was deleted. |
+| **Access review recency** | ✅ Yes | "Last review was N days ago" is a timestamp assertion — provable without listing who has access. |
+| **VPN requirement for admin access** | ✅ Yes | Network-level policy is a config assertion. |
+| **Compliance badge validity (ISO, HIPAA)** | ✅ Yes | Whether the underlying controls are *active* is testable, even if the cert itself is institutional. |
+| **Software patch level** | ✅ Yes | Version numbers and patch dates are provable facts; CVE presence is binary. |
+| **Password complexity policy** | ✅ Yes | The *policy rule* is provable (e.g. min 12 chars, special chars required) without seeing any actual passwords. |
+| **Data minimisation — fields collected** | ✅ Yes | Schema structure can be proved (e.g. "no SSN column exists") without revealing row data. |
+| **Log retention period** | ✅ Yes | Retention policy config is a provable assertion without exposing log contents. |
+| **Open port surface** | ⚠️ Partial | Whether *unexpected* ports are open can be proven, but the full list itself is sensitive and revealing it could aid attackers. |
+| **Number of privileged accounts** | ⚠️ Partial | A range ("between 1 and 5") or threshold ("fewer than 10") is provable, but exact count + identities would expose org structure. |
+| **Specific user's data contents** | ❌ No | Proving *what* is inside a record requires revealing it. ZKP proves structure and policy, not content. |
+| **Whether a specific individual was breached** | ❌ No | Checking a named person's records defeats the anonymity the system is designed to preserve. |
+| **Internal network topology / IP ranges** | ❌ No | Revealing this is the exact security risk the middleware is designed to prevent — it's an attacker's map. |
+| **Vendor/third-party sub-processor security** | ❌ No | The framework only reaches infrastructure you control. External SaaS, CDNs, or vendors are black boxes outside the proof boundary. |
+| **Human behaviour and intent** | ❌ No | Whether an admin *abused* access, not just *had* access, requires log interpretation and context — not a binary policy state. |
+| **Future security posture** | ❌ No | ZKP proves current state at time of query. It cannot predict whether a config will change in an hour. Proofs expire intentionally. |
+| **Algorithmic fairness / AI model bias** | ❌ No | Not an infrastructure config state — requires statistical analysis of outcomes across populations, a fundamentally different audit class. |
+| **Physical data centre security** | ❌ No | Camera feeds, badge logs, and physical access are not software-addressable. These require on-site human auditors. |
+
+---
+
+The general rule is: **anything reducible to a binary or numeric assertion about a system's configuration or state can be audited this way.** What cannot be audited is anything requiring you to reveal the content itself to prove the claim, anything outside the software boundary (physical, human, third-party), and anything predictive rather than present-state.

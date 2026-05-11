@@ -1,0 +1,14 @@
+{
+  "name": "public-pulse-poc",
+  "version": "1.0.0",
+  "description": "Public Pulse — Decentralized IT Trust PoC",
+  "scripts": {
+    "install:all": "cd infra-sim && npm install && cd ../middleware && npm install",
+    "start:infra": "cd infra-sim && node index.js",
+    "start:middleware": "cd middleware && node index.js",
+    "start": "node start.js"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

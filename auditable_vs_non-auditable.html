@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditable vs Non-Auditable Security Assertions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f4f6f9;
+      color: #222;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1f4e79;
+    }
+
+    h2 {
+      margin-top: 40px;
+      color: #0b5394;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: #1f4e79;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .yes {
+      color: green;
+      font-weight: bold;
+    }
+
+    .partial {
+      color: orange;
+      font-weight: bold;
+    }
+
+    .no {
+      color: red;
+      font-weight: bold;
+    }
+
+    .note {
+      margin-top: 30px;
+      padding: 15px;
+      background: #fff8dc;
+      border-left: 5px solid #f0ad4e;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Auditable vs Non-Auditable Security Assertions</h1>
+
+  <h2>Auditable Items</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Auditable Item</th>
+        <th>Status</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Encryption at rest</td>
+        <td class="yes">Yes</td>
+        <td>Binary state — encryption enabled or disabled can be proven without exposing keys.</td>
+      </tr>
+      <tr>
+        <td>Encryption in transit / TLS version</td>
+        <td class="yes">Yes</td>
+        <td>TLS handshake and protocol version are externally verifiable assertions.</td>
+      </tr>
+      <tr>
+        <td>Database public exposure</td>
+        <td class="yes">Yes</td>
+        <td>Network reachability can be verified without revealing internal addresses.</td>
+      </tr>
+      <tr>
+        <td>MFA enforcement</td>
+        <td class="yes">Yes</td>
+        <td>Authentication policy exists as a provable configuration state.</td>
+      </tr>
+      <tr>
+        <td>Session timeout policy</td>
+        <td class="yes">Yes</td>
+        <td>Timeout threshold is a numeric configuration value.</td>
+      </tr>
+      <tr>
+        <td>Backup recency</td>
+        <td class="yes">Yes</td>
+        <td>Backup timestamps can prove backups occurred within required periods.</td>
+      </tr>
+      <tr>
+        <td>SSL certificate validity / expiry</td>
+        <td class="yes">Yes</td>
+        <td>Certificate metadata is already public and easily verifiable.</td>
+      </tr>
+      <tr>
+        <td>Brute force / lockout policy</td>
+        <td class="yes">Yes</td>
+        <td>Lockout thresholds are policy-level assertions.</td>
+      </tr>
+      <tr>
+        <td>Firewall and IDS active status</td>
+        <td class="yes">Yes</td>
+        <td>Running/not-running is a binary system state.</td>
+      </tr>
+      <tr>
+        <td>GDPR deletion policy implementation</td>
+        <td class="yes">Yes</td>
+        <td>Deletion workflows and audit trails can be proven without revealing user identities.</td>
+      </tr>
+      <tr>
+        <td>Access review recency</td>
+        <td class="yes">Yes</td>
+        <td>Timestamps prove reviews occurred within required intervals.</td>
+      </tr>
+      <tr>
+        <td>VPN requirement for admin access</td>
+        <td class="yes">Yes</td>
+        <td>VPN enforcement exists as a network policy configuration.</td>
+      </tr>
+      <tr>
+        <td>Compliance badge validity (ISO, HIPAA)</td>
+        <td class="yes">Yes</td>
+        <td>Underlying technical controls can be validated.</td>
+      </tr>
+      <tr>
+        <td>Software patch level</td>
+        <td class="yes">Yes</td>
+        <td>Versions and CVE patch status are objective facts.</td>
+      </tr>
+      <tr>
+        <td>Password complexity policy</td>
+        <td class="yes">Yes</td>
+        <td>Password rules are provable without exposing actual passwords.</td>
+      </tr>
+      <tr>
+        <td>Data minimisation — fields collected</td>
+        <td class="yes">Yes</td>
+        <td>Schema structure can be audited without exposing records.</td>
+      </tr>
+      <tr>
+        <td>Log retention period</td>
+        <td class="yes">Yes</td>
+        <td>Retention settings are policy-level configurations.</td>
+      </tr>
+      <tr>
+        <td>Open port surface</td>
+        <td class="partial">Partial</td>
+        <td>Unexpected open ports can be detected, but full exposure details are sensitive.</td>
+      </tr>
+      <tr>
+        <td>Number of privileged accounts</td>
+        <td class="partial">Partial</td>
+        <td>Ranges or thresholds can be proven without exposing identities.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Non-Auditable Items</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Non-Auditable Item</th>
+        <th>Status</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Specific user's data contents</td>
+        <td class="no">No</td>
+        <td>Proving actual record contents requires revealing the data itself.</td>
+      </tr>
+      <tr>
+        <td>Whether a specific individual was breached</td>
+        <td class="no">No</td>
+        <td>Checking named records breaks privacy and anonymity guarantees.</td>
+      </tr>
+      <tr>
+        <td>Internal network topology / IP ranges</td>
+        <td class="no">No</td>
+        <td>Revealing infrastructure mapping creates security risks.</td>
+      </tr>
+      <tr>
+        <td>Vendor/third-party sub-processor security</td>
+        <td class="no">No</td>
+        <td>External providers fall outside the proof boundary.</td>
+      </tr>
+      <tr>
+        <td>Human behaviour and intent</td>
+        <td class="no">No</td>
+        <td>Intent and misuse require interpretation, not binary verification.</td>
+      </tr>
+      <tr>
+        <td>Future security posture</td>
+        <td class="no">No</td>
+        <td>Proofs validate current state only and cannot predict future changes.</td>
+      </tr>
+      <tr>
+        <td>Algorithmic fairness / AI model bias</td>
+        <td class="no">No</td>
+        <td>Bias analysis requires statistical evaluation rather than config verification.</td>
+      </tr>
+      <tr>
+        <td>Physical data centre security</td>
+        <td class="no">No</td>
+        <td>Physical security requires human inspection and real-world controls.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>General Rule:</strong><br>
+    Anything reducible to a binary or numeric assertion about a system's current configuration or state can generally be audited using cryptographic proofs or zero-knowledge approaches.  
+    Anything requiring disclosure of actual content, human interpretation, external dependencies, or future prediction cannot be directly audited in this framework.
+  </div>
+
+</body>
+</html>

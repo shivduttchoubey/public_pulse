@@ -1,3 +1,5 @@
+Q. audit done in jan and system change made in feb render jan certification useless or not
+
 A January audit followed by a significant system change in February does not automatically render the January certification "useless," but it likely voids its immediate validity regarding the current state of operations. [1, 2]  
 The certification proves the system was compliant at the time of the audit. However, a major, untested, or unapproved change in February often renders that evidence obsolete. [2, 3]  
 Here is how the situation is viewed: 
